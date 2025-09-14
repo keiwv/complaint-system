@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from prisma import Prisma
 from app.models.auth_model import AuthLogin, AuthResponse, AuthCreate
-from app.services.auth_services import authStaff, registerStaff 
+from app.services.auth_services import auth_staff, register_staff 
 from app.session import get_prisma
 from app.utils.jwt_utils import generate_token
 
@@ -17,7 +17,7 @@ async def login(login_data: AuthLogin, db: Prisma = Depends(get_prisma)):
         raise HTTPException(status_code=401, detail="password missing")
 
     # Check credentials in database    
-    staff = await authStaff(db, login_data)
+    staff = await auth_staff(db, login_data)
 
     # If it doesn't exist or password is wrong
     if not staff:
@@ -39,7 +39,7 @@ async def login(login_data: AuthLogin, db: Prisma = Depends(get_prisma)):
 @router.post("/register", response_model=AuthResponse)
 async def register(staff_data: AuthCreate, db: Prisma = Depends(get_prisma)):
     try:
-        new_staff = await registerStaff(db, staff_data)
+        new_staff = await register_staff(db, staff_data)
         return AuthResponse(
             id=new_staff.id,
             name=new_staff.name,

@@ -3,6 +3,7 @@ import logging
 from app.session import lifespan 
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.auth_router import router as auth_router
+from app.routes.complaint_routes import router as complaint_router
 
 logger = logging.getLogger(__name__)
 
@@ -28,5 +29,6 @@ async def root():
 
 # Include the auth router
 app.include_router(auth_router)
+app.include_router(complaint_router)
 
 logger.info("Complaint Service is up and running.")
