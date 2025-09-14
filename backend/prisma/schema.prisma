@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Defines the database connection.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Specifies the Prisma Client generator.
+generator client {
+  provider = "prisma-client-py"
+}
+
+// Enum for the possible statuses of a complaint.
+enum ComplaintStatus {
+  PENDING
+  IN_PROGRESS
+  RESOLVED
+}
+
+// Model for the Staff users who manage complaints.
+model Staff {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique
+  passwordHash  String   @map("password_hash")
+  role          String
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  // A staff member can be assigned to many complaints.
+  assignedComplaints Complaint[]
+
+  // A staff member can write many notes.
+  notes         Note[]
+
+  @@map("staff")
+}
+
+// Model for the customer complaints.
+model Complaint {
+  id              Int             @id @default(autoincrement())
+  customerEmail   String          @map("customer_email")
+  description     String
+  status          ComplaintStatus @default(PENDING)
+  dueDate         DateTime?       @map("due_date")
+  createdAt       DateTime        @default(now()) @map("created_at")
+
+  // Relation to the staff member assigned to this complaint.
+  assignedStaff   Staff?          @relation(fields: [assignedStaffId], references: [id])
+  assignedStaffId Int?            @map("assigned_staff_id")
+
+  // A complaint can have many notes.
+  notes           Note[]
+
+  @@map("complaints")
+}
+
+// Model for the notes added by staff to a complaint.
+model Note {
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relation to the complaint this note belongs to.
+  complaint   Complaint @relation(fields: [complaintId], references: [id])
+  complaintId Int       @map("complaint_id")
+
+  // Relation to the staff member who wrote this note.
+  author    Staff     @relation(fields: [authorId], references: [id])
+  authorId  Int       @map("author_id")
+
+  @@map("notes")
+}
