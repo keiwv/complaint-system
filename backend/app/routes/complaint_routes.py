@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from prisma import Prisma
 from app.models.complaint_model import ComplaintCreate, ComplaintResponse
 from app.services.complaint_services import create_complaint, get_complaints
 from app.session import get_prisma
+from app.utils.jwt_utils import validate_token_header
 
 router = APIRouter(tags=["Complaints"])
 
+""" A customer can create a complaint without authentication, but to view complaints authentication is required """
 @router.post("/complaints", response_model=ComplaintCreate)
 async def create_complaint_route(complaint_data: ComplaintCreate, db: Prisma = Depends(get_prisma)):
     """Route to create a new complaint"""
@@ -21,8 +23,10 @@ async def create_complaint_route(complaint_data: ComplaintCreate, db: Prisma = D
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
+""" Get all complaints requires authentication """
 @router.get("/complaints", response_model=list[ComplaintResponse])
-async def get_complaints_route(db: Prisma = Depends(get_prisma)):
+async def get_complaints_route(db: Prisma = Depends(get_prisma), current_user: dict = Depends(validate_token_header)):
     """Route to get all complaints"""
     try:
         complaints = await get_complaints(db)
