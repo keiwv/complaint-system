@@ -4,6 +4,7 @@ from app.models.auth_model import AuthLogin, AuthResponse, AuthCreate
 from app.services.auth_services import auth_staff, register_staff 
 from app.session import get_prisma
 from app.utils.jwt_utils import generate_token
+from app.utils.email_utils import is_valid_email
 
 router = APIRouter(tags=["Auth"])
 
@@ -11,10 +12,10 @@ router = APIRouter(tags=["Auth"])
 async def login(login_data: AuthLogin, db: Prisma = Depends(get_prisma)):
 
     # Check for missing fields
-    if not login_data.email:
-        raise HTTPException(status_code=401, detail="email missing")
+    if not is_valid_email(login_data.email):
+        raise HTTPException(status_code=401, detail="Invalid email format")
     if not login_data.password:
-        raise HTTPException(status_code=401, detail="password missing")
+        raise HTTPException(status_code=401, detail="Password missing")
 
     # Check credentials in database    
     staff = await auth_staff(db, login_data)

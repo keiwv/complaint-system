@@ -29,6 +29,9 @@ async def root():
 
 # Include the auth router
 app.include_router(auth_router)
+
+# Include the complaint router
 app.include_router(complaint_router)
+
 
 logger.info("Complaint Service is up and running.")

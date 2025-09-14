@@ -11,6 +11,8 @@ export const useComplaintForm = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [message, setMessage] = useState("");
 
+    // To update the field, first parameter is the field name, second is the value
+    // This function will update the specific field in the formData state
     const updateField = (field: keyof ComplaintCreate, value: string) => {
         setFormData((prev) => ({ ...prev, [field]: value }));
     };
@@ -32,10 +34,10 @@ export const useComplaintForm = () => {
                 setMessage("Complaint submitted successfully");
                 setFormData({ customerEmail: "", description: "" });
             } else {
-                setMessage("Error submitting complaint. Please try again.");
+                setMessage("Error submitting complaint. Please try again later.");
             }
         } catch (error) {
-            setMessage("Error submitting complaint. Please try again.");
+            setMessage("Error submitting complaint. Please try again later.");
         } finally {
             setIsSubmitting(false);
         }

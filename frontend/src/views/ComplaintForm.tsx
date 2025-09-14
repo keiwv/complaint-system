@@ -8,12 +8,7 @@ export default function ComplaintForm() {
 
     return (
         <div className="w-full max-w-md">
-            <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
-                {/* Title */}
-                <h1 className="text-2xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-                    Submit Complaint
-                </h1>
-
+            <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg px-8 pt-6 pb-8">
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -81,3 +76,4 @@ export default function ComplaintForm() {
         </div>
     );
 }
+
