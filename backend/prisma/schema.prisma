@@ -25,7 +25,6 @@ model Staff {
   name          String
   email         String   @unique
   passwordHash  String   @map("password_hash")
-  role          String
   createdAt     DateTime @default(now()) @map("created_at")
 
   // A staff member can be assigned to many complaints.
