@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { ComplaintResponse, ComplaintUpdate } from "@/interfaces/complaint";
 import { ComplaintStatus } from "@/interfaces/enum";
-import { getComplaints } from "@/services/api/api";
-import { updateComplaintStatusApi } from "@/services/api/api";
+import { getComplaints } from "@/services/api/complaint";
+import { updateComplaintStatusApi } from "@/services/api/complaint";
 
 interface UseComplaintsProps {
     initialComplaints?: ComplaintResponse[];

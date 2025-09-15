@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { NoteResponse, NoteCreate } from '@/interfaces/note';
-import { getNotesFromComplaint, createComplaint, createNoteForComplaint } from '@/services/api/api';
+import { getNotesFromComplaint, createComplaint, createNoteForComplaint } from '@/services/api/complaint';
 
 export const useNotes = (complaintId: Number) => {
     const [notes, setNotes] = useState<NoteResponse[]>([]);

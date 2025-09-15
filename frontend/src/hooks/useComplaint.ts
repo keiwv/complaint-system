@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ComplaintResponse, ComplaintUpdate } from '@/interfaces/complaint';
-import { getComplaint, updateComplaint } from '@/services/api/api';
+import { getComplaint, updateComplaint } from '@/services/api/complaint';
 
 export function useComplaint(id: string) {
     const [complaint, setComplaint] = useState<ComplaintResponse | null>(null);

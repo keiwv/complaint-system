@@ -1,8 +1,7 @@
 import { ComplaintResponse, ComplaintCreate, ComplaintUpdate } from "@/interfaces/complaint";
 import { LoginCredentials, LoginResponse } from "@/interfaces/login/auth";
 import { NoteCreate } from "@/interfaces/note";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { API_URL } from "./URL";
 
 
 function getAuthHeaders(): HeadersInit {
@@ -14,19 +13,6 @@ function getAuthHeaders(): HeadersInit {
     };
 }
 
-export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
-    const response = await fetch(`${API_URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(credentials),
-    });
-
-    if (!response.ok) {
-      throw new Error('Invalid credentials');
-    }
-
-    return response.json();
-  }
 
 export async function createComplaint(complaint: ComplaintCreate): Promise<ComplaintResponse> {
     const response = await fetch(`${API_URL}/complaints`, {

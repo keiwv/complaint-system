@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { LoginCredentials } from '@/interfaces/login/auth';
-import { login } from '@/services/api/api';
+import { login } from '@/services/api/complaint';
 
 export function useAuth() {
   const [loading, setLoading] = useState(false);

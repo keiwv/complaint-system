@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { login } from '@/services/api/api';
+import { login } from '@/services/api/login';
 import { LoginCredentials } from '@/interfaces/login/auth';
 
 export default function LoginPage() {

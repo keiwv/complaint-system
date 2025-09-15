@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ComplaintCreate } from "@/interfaces/complaint";
-import { createComplaint } from "@/services/api/api";
+import { createComplaint } from "@/services/api/complaint";
 
 
 export const useComplaintForm = () => {
