@@ -2,6 +2,52 @@
 
 This project consists of a backend API and a frontend application.
 
+## Database Architecture
+
+The application uses a PostgreSQL database with the following schema:
+
+```
+┌─────────────────────────────────────┐
+│              Complaints             │
+├─────────────┬───────────────────────┤
+│ int         │ complaint_id     [PK] │
+│ varchar     │ customer_email        │
+│ text        │ description           │
+│ varchar     │ status                │
+│ date        │ due_date              │
+│ int         │ assigned_staff_id[FK] │
+└─────────────┴───────────────────────┘
+                        │
+                        │ (Many-to-One)
+                        ▼
+┌─────────────────────────────────────┐
+│               Staff                 │
+├─────────────┬───────────────────────┤
+│ int         │ staff_id         [PK] │
+│ varchar     │ name                  │
+│ varchar     │ email                 │
+│ varchar     │ password_hash         │
+│ timestamp   │ created_at            │
+└─────────────┴───────────────────────┘
+                        │
+                        │ (One-to-Many)
+                        ▼
+┌─────────────────────────────────────┐
+│               Notes                 │
+├─────────────┬───────────────────────┤
+│ int         │ note_id          [PK] │
+│ text        │ content               │
+│ timestamp   │ created_at            │
+│ int         │ complaint_id     [FK] │
+│ int         │ staff_id         [FK] │
+└─────────────┴───────────────────────┘
+```
+
+**Relationships:**
+- One Staff member can be assigned to many Complaints
+- One Complaint can have many Notes
+- One Staff member can create many Notes
+
 ## Backend Setup
 
 ### 1. Navigate to Backend Directory
@@ -120,3 +166,21 @@ password: 123
 - Keep the virtual environment activated while running the backend
 - The backend should be running before starting the frontend
 - Use the created user credentials at the backend section to login in the frontend
+
+## Technical Decisions & Trade-offs
+
+### Navigation:
+I used next/navigation because it provides SSR (Server-Side Rendering) by default. For pages that were already being rendered, I used next/link. Both are native to Next.js with the App Router.
+
+### Database:
+I chose Prisma because it allows me to define models in a modular way, without the need to manually add new fields.
+
+### Design:
+While I would have liked to add more styling, my main focus is backend development, so I kept the UI relatively simple.
+
+### Authentication:
+Although authentication wasn't explicitly required, I implemented a basic login system. I consider login to be one of the most fundamental features to account for when building applications, especially from a security perspective.
+
+Initially, I thought about removing it since it interfered with SSR.
+
+However, I decided to keep it and resolve the issues because I believe its inclusion adds value, even if it wasn't part of the requirements.
