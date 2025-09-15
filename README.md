@@ -97,13 +97,25 @@ DATABASE_URL="postgresql://postgres:password@localhost:5432/complaint_db"
 docker-compose up -d --build
 ```
 
-### 7. Run the Backend Application
+### 7. Generate Prisma Client
+
+```bash
+prisma generate
+```
+
+### 8. Deploy Database Tables
+
+```bash
+prisma db push
+```
+
+### 9. Run the Backend Application
 
 ```bash
 python main.py
 ```
 
-### 8. Create User for Frontend Login
+### 10. Create User for Frontend Login
 
 To be able to login in the frontend, you need to create a user first:
 
