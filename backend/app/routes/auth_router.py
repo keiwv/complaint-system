@@ -32,7 +32,6 @@ async def login(login_data: AuthLogin, db: Prisma = Depends(get_prisma)):
             "id": staff.id,
             "name": staff.name,
             "email": staff.email,
-            "createdAt": staff.createdAt
         },
         "token": token
     }

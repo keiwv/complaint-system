@@ -20,3 +20,6 @@ class ComplaintCreate(BaseModel):
     description: str = Field(..., description="Text of the complaint")
     status: ComplaintStatus = Field(default=ComplaintStatus.PENDING, description="Status of the complaint: PENDING, IN_PROGRESS, RESOLVED")
     createdAt: datetime.datetime = Field(default_factory=datetime.datetime.now, description="Timestamp when the complaint was created")
+
+class ComplaintUpdate(BaseModel):
+    status: Optional[ComplaintStatus] = Field(None, description="Status of the complaint: PENDING, IN_PROGRESS, RESOLVED")

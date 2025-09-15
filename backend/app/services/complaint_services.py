@@ -1,6 +1,5 @@
 from prisma import Prisma
-from app.models.complaint_model import ComplaintCreate
-from app.models.enum import ComplaintStatus
+from app.models.complaint_model import ComplaintCreate, ComplaintUpdate
 
 """
 Create Complaint Function
@@ -27,3 +26,10 @@ Get All Complaints Function
 async def get_complaints(db: Prisma):
     complaints = await db.complaint.find_many()
     return complaints
+
+async def update_complaint(db: Prisma, complaint_id: int, data: ComplaintUpdate):
+    updated_complaint = await db.complaint.update(
+        where={"id": complaint_id},
+        data={**data.model_dump(exclude_unset=True)}
+    )
+    return updated_complaint
