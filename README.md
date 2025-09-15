@@ -1,4 +1,4 @@
-# SkillUpLeader
+# Complaint Management System
 
 This project consists of a backend API and a frontend application.
 
