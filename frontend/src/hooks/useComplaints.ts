@@ -14,12 +14,7 @@ interface UseComplaintsReturn {
     complaints: ComplaintResponse[];
     loading: boolean;
     error: string | null;
-    updateComplaintStatus: (
-        complaintId: number,
-        newStatus: ComplaintUpdate
-    ) => Promise<void>;
     refreshComplaints: () => Promise<void>;
-    addNote: (complaintId: number) => void;
 }
 
 export function useComplaints(): UseComplaintsReturn {
@@ -47,41 +42,6 @@ export function useComplaints(): UseComplaintsReturn {
         }
     };
 
-    const updateComplaintStatus = async (
-        complaintId: number,
-        newStatus: ComplaintUpdate
-    ) => {
-        try {
-            const response = await updateComplaintStatusApi(
-                newStatus,
-                complaintId
-            );
-
-            if (!response) {
-                throw new Error("Failed to update complaint status");
-            }
-
-            // Optimistically update the local state
-            setComplaints((prev) =>
-                prev.map((complaint) =>
-                    complaint.id === complaintId
-                        ? { ...complaint, status: newStatus.status }
-                        : complaint
-                )
-            );
-        } catch (err) {
-            setError(
-                err instanceof Error ? err.message : "Failed to update status"
-            );
-            console.error("Failed to update complaint status:", err);
-        }
-    };
-
-    const addNote = (complaintId: number) => {
-        // For now, just show an alert - can be enhanced later with modal or navigation
-        alert(`Add note for complaint ID: ${complaintId}`);
-    };
-
     const refreshComplaints = async () => {
         await fetchComplaints();
     };
@@ -100,8 +60,6 @@ export function useComplaints(): UseComplaintsReturn {
         complaints,
         loading,
         error,
-        updateComplaintStatus,
         refreshComplaints,
-        addNote,
     };
 }

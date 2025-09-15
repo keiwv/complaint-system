@@ -7,6 +7,7 @@ export interface ComplaintResponse {
     status: ComplaintStatus;
     createdAt: string;
     updatedAt: string;
+    dueDate: string;
 }
 
 export interface ComplaintCreate {
@@ -15,5 +16,6 @@ export interface ComplaintCreate {
 }
 
 export interface ComplaintUpdate {
-    status: ComplaintStatus;
+    status?: ComplaintStatus;
+    dueDate?: string;
 }

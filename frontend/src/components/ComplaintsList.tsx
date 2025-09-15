@@ -1,19 +1,35 @@
+"use client";
+
 import React from 'react';
+import { useComplaints } from '@/hooks/useComplaints';
 import ComplaintCard from './ComplaintCard';
-import { ComplaintResponse } from '@/interfaces/complaint';
-import { getComplaints } from '@/services/api/api';
 
+export default function ComplaintsList() {
+  const { 
+    complaints, 
+    loading, 
+    error, 
+  } = useComplaints();
 
+  if (loading && complaints.length === 0) {
+    return (
+      <div className="w-full bg-gray-50 py-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-lg shadow-md p-8 text-center text-gray-500">
+            <div className="flex items-center justify-center gap-3">
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-export default async function ComplaintsList() {
-  const  complaints : ComplaintResponse[] = await getComplaints();
-
-  if (!complaints) {
+  if (error) {
     return (
       <div className="w-full bg-gray-50 py-8">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <div className="text-red-600 text-lg font-medium">Error fetching complaints</div>
+            <div className="text-red-600 text-lg font-medium">Error: {error}</div>
           </div>
         </div>
       </div>
@@ -37,6 +53,7 @@ export default async function ComplaintsList() {
               <ComplaintCard
                 key={complaint.id}
                 complaint={complaint}
+                loading={loading}
               />
             ))}
           </div>

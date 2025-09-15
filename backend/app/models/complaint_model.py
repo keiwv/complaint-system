@@ -23,3 +23,4 @@ class ComplaintCreate(BaseModel):
 
 class ComplaintUpdate(BaseModel):
     status: Optional[ComplaintStatus] = Field(None, description="Status of the complaint: PENDING, IN_PROGRESS, RESOLVED")
+    dueDate: Optional[datetime.datetime] = Field(None, description="Due date for resolving the complaint in datetime format")

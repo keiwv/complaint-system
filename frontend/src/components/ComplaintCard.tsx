@@ -1,19 +1,24 @@
 "use client";
-
 import React from 'react';
-import { ComplaintResponse } from '@/interfaces/complaint';
+import { ComplaintResponse, ComplaintUpdate } from '@/interfaces/complaint';
 import { ComplaintStatus } from '@/interfaces/enum';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calendar, Mail, MessageSquare } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface ComplaintCardProps {
   complaint: ComplaintResponse;
+  loading?: boolean;
 }
 
-export default function ComplaintCard({ complaint }: ComplaintCardProps) {
+export default function ComplaintCard({ 
+  complaint, 
+  loading = false 
+}: ComplaintCardProps) {
+  const router = useRouter();
+
   const getStatusVariant = (status: ComplaintStatus) => {
     switch (status) {
       case ComplaintStatus.RESOLVED:
@@ -36,10 +41,9 @@ export default function ComplaintCard({ complaint }: ComplaintCardProps) {
     }
   };
 
-  const handleViewDetails = (id: number) => {
-    // Handle view details action - can be navigation or modal
-    console.log('View details for complaint:', id);
-  };
+    const viewDetails = (id: number) => {
+        router.push(`/complaint/${id}`);
+    };
 
   return (
     <Card className="w-full h-full min-h-[280px] hover:shadow-xl transition-all duration-300 border-0 shadow-md bg-white overflow-hidden group">
@@ -89,11 +93,19 @@ export default function ComplaintCard({ complaint }: ComplaintCardProps) {
 
         <div className="pt-4 border-t border-gray-100">
           <Button
-            onClick={() => handleViewDetails(complaint.id)}
+            onClick={() => viewDetails(complaint.id)}
             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors duration-200"
             size="sm"
+            disabled={loading}
           >
-            View Details
+            {loading ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Loading...
+              </div>
+            ) : (
+              'View Details'
+            )}
           </Button>
         </div>
       </CardContent>

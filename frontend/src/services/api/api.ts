@@ -44,7 +44,7 @@ export async function createComplaint(complaint: ComplaintCreate): Promise<Compl
 }
 
 
-export async function updateComplaintStatusApi(complaint: ComplaintUpdate, complaintId: number): Promise<ComplaintResponse> {
+export async function updateComplaintStatusApi(complaint: ComplaintUpdate, complaintId: string): Promise<ComplaintResponse> {
     const response = await fetch(`${API_URL}/complaints/${complaintId}`, {
       method: 'PATCH',
       headers: getAuthHeaders(),
@@ -69,18 +69,40 @@ export async function getComplaints(): Promise<ComplaintResponse[]> {
     return response.json();
 }
 
-export async function getComplaintsServerSide(token: string): Promise<ComplaintResponse[]> {
-    const response = await fetch(`${API_URL}/complaints`, {
+export async function getComplaint(id: string): Promise<ComplaintResponse> {
+    const response = await fetch(`${API_URL}/complaints/${id}`, {
         method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
+        headers: getAuthHeaders(),
     });
 
     if (!response.ok) {
-        throw new Error('Failed to fetch complaints');
+        throw new Error('Failed to fetch complaint');
     }
     return response.json();
 }
 
+export async function updateComplaintNotes(complaintId: string, notes: string): Promise<ComplaintResponse> {
+    const response = await fetch(`${API_URL}/complaints/${complaintId}/notes`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ notes }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to update notes');
+    }
+    return response.json();
+}
+
+export async function updateComplaint(complaintId: string, complaint: ComplaintUpdate): Promise<ComplaintResponse> {
+    const response = await fetch(`${API_URL}/complaints/${complaintId}`, {
+        method: 'PATCH',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(complaint),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to update complaint');
+    }
+    return response.json();
+}

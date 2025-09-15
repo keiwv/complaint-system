@@ -31,7 +31,7 @@ export default function LoginPage() {
       document.cookie = `token=${response.token}; path=/; max-age=${60 * 60 * 24 * 7}; SameSite=Strict`;
       
       // Redirect to original page or dashboard
-      const destination = redirectTo || '/dashboard';
+      const destination = redirectTo || '/?tab=view-complaints';
       router.push(destination);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');

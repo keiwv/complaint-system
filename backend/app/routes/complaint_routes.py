@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Header
 from prisma import Prisma
 from app.models.complaint_model import ComplaintCreate, ComplaintResponse, ComplaintUpdate
-from app.services.complaint_services import create_complaint, get_complaints, update_complaint
+from app.services.complaint_services import create_complaint, get_complaint_by_id, get_complaints, update_complaint
 from app.session import get_prisma
 from app.utils.jwt_utils import validate_token_header
 from app.models.enum import ComplaintStatus
@@ -41,10 +41,19 @@ async def get_complaints_route(db: Prisma = Depends(get_prisma), current_user: d
 async def update_complaint_route(complaint_id: int, data: ComplaintUpdate, db: Prisma = Depends(get_prisma), current_user: dict = Depends(validate_token_header)):
     """Route to update the status of a complaint"""
     try:
-        if data.status not in ComplaintStatus.__members__:
-            raise HTTPException(status_code=400, detail="Invalid status value")
-
         updated_complaint = await update_complaint(db, complaint_id, data)
         return updated_complaint
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+""" Get complaint by ID """
+@router.get("/complaints/{complaint_id}", response_model=ComplaintResponse)
+async def get_complaint_by_id_route(complaint_id: int, db: Prisma = Depends(get_prisma), current_user: dict = Depends(validate_token_header)):
+    """Route to get a complaint by ID"""
+    try:
+        complaint = await get_complaint_by_id(db, complaint_id)
+        if not complaint:
+            raise HTTPException(status_code=404, detail="Complaint not found")
+        return complaint
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
