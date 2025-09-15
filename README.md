@@ -182,7 +182,7 @@ password: 123
 ## Technical Decisions & Trade-offs
 
 ### Navigation:
-I used next/navigation because it provides SSR (Server-Side Rendering) by default. For pages that were already being rendered, I used next/link. Both are native to Next.js with the App Router.
+I used next/navigation for programmatic navigation in client components, and next/link for declarative links on pages that were already being rendered. Both are native to Next.js and designed to work with the App Router.
 
 ### Database:
 I chose Prisma because it allows me to define models in a modular way, without the need to manually add new fields.
