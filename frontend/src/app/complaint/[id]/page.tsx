@@ -91,12 +91,6 @@ export default function ComplaintDetailPage() {
                             </p>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">Last Updated</label>
-                            <p className="mt-1 text-sm text-gray-900">
-                                {new Date(complaint.updatedAt).toLocaleDateString()}
-                            </p>
-                        </div>
                     </div>
 
                     {/* Description */}

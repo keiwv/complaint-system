@@ -12,6 +12,7 @@ export default function Notes({ complaintId }: NotesProps) {
     const { notes, loading, error, createNote, createLoading, createError } = useNotes(complaintId);
     const [newNoteContent, setNewNoteContent] = useState('');
     const [showCreateForm, setShowCreateForm] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleCreateNote = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,6 +25,9 @@ export default function Notes({ complaintId }: NotesProps) {
             });
             setNewNoteContent('');
             setShowCreateForm(false);
+            setSuccessMessage('The note has been added successfully!');
+            // Clear success message after 3 seconds
+            setTimeout(() => setSuccessMessage(''), 3000);
         } catch (err) {
             // Error is handled in the hook
         }
@@ -49,6 +53,13 @@ export default function Notes({ complaintId }: NotesProps) {
                     {showCreateForm ? 'Cancel' : 'Add Note'}
                 </button>
             </div>
+
+            {/* Success Message */}
+            {successMessage && (
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
+                    <p className="text-green-800 text-sm">{successMessage}</p>
+                </div>
+            )}
 
             {/* Create Note Form */}
             {showCreateForm && (

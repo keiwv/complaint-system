@@ -7,7 +7,7 @@ export default function Page({ searchParams }: PageProps) {
       <div className="w-full">
         <div className="text-center mb-8 max-w-4xl mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            SkillUp Leader Portal
+            Complaints
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-300">
             Create complaints and manage them
