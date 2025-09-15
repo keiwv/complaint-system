@@ -1,5 +1,6 @@
 import { ComplaintResponse, ComplaintCreate, ComplaintUpdate } from "@/interfaces/complaint";
 import { LoginCredentials, LoginResponse } from "@/interfaces/login/auth";
+import { NoteCreate } from "@/interfaces/note";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -105,4 +106,32 @@ export async function updateComplaint(complaintId: string, complaint: ComplaintU
         throw new Error('Failed to update complaint');
     }
     return response.json();
+}
+
+
+export async function getNotesFromComplaint(complaintId: Number)
+{
+    const response = await fetch(`${API_URL}/notes/complaint/${complaintId}`, {
+        method: 'GET',
+        headers: getAuthHeaders(),
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch notes');
+    }
+    return response.json();
+}
+
+export async function createNoteForComplaint(complaintId: Number, note: NoteCreate)
+{
+    const response = await fetch(`${API_URL}/notes`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(note),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to create note');
+    }
+    return response.json();
+
 }

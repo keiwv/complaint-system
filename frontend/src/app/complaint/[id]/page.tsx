@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { ComplaintStatus } from '@/interfaces/enum';
 import { useComplaint } from '@/hooks/useComplaint';
 import { useComplaintUpdate } from '@/hooks/useComplaintUpdate';
+import Notes from '@/components/Notes';
 
 export default function ComplaintDetailPage() {
     const params = useParams();
@@ -162,9 +163,11 @@ export default function ComplaintDetailPage() {
                             {updateLoading ? 'Updating...' : 'Update'}
                         </button>
                     </div>
+
+                    {/* Notes Section */}
+                    <Notes complaintId={parseInt(id)} />
                 </div>
             </div>
         </div>
     );
 }
- 
